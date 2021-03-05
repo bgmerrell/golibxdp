@@ -34,8 +34,6 @@ func bpfGetFDByID(id uint32) (uint32, error) {
 	return uint32(fd), err
 }
 
-type bpfObjName [unix.BPF_OBJ_NAME_LEN]byte
-
 type bpfProgramInformation struct {
 	prog_type                uint32
 	id                       uint32
@@ -48,7 +46,7 @@ type bpfProgramInformation struct {
 	created_by_uid           uint32
 	nr_map_ids               uint32
 	map_ids                  unsafe.Pointer
-	name                     bpfObjName // since 4.15 067cae47771c
+	name                     [unix.BPF_OBJ_NAME_LEN]byte // since 4.15 067cae47771c
 	ifindex                  uint32
 	gpl_compatible           uint32
 	netns_dev                uint64

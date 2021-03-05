@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/hex"
 	"fmt"
 	"strings"
@@ -41,6 +42,10 @@ func (p xdpProgram) Mode() string {
 
 func (p xdpProgram) Exists() bool {
 	return p.netlinkInfo.ProgID > 0
+}
+
+func (p xdpProgram) Name() string {
+	return string(bytes.Trim(p.bpfProgInfo.name[:], "\x00"))
 }
 
 func status(ifname string) error {
@@ -95,8 +100,7 @@ func status(ifname string) error {
 	for _, xdpProg := range xdpProgs {
 		if xdpProg.Exists() {
 			fmt.Printf(outTemplate,
-				xdpProg.iface, 0,
-				string(xdpProg.bpfProgInfo.name[:]),
+				xdpProg.iface, 0, xdpProg.Name(),
 				xdpProg.Mode(), xdpProg.netlinkInfo.ProgID,
 				hex.EncodeToString(xdpProg.bpfProgInfo.tag[:]),
 				"XDP_FOO")
