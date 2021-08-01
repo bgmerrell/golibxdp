@@ -104,14 +104,10 @@ func status(ifname string) error {
 				xdpProg.Mode(), xdpProg.netlinkInfo.ProgID,
 				hex.EncodeToString(xdpProg.bpfProgInfo.tag[:]),
 				"XDP_FOO")
-			// fmt.Printf("%#v\n", xdpProg.bpfProgInfo)
 		} else {
 			fmt.Printf("%-17s<No XDP program loaded!>\n", xdpProg.iface)
 		}
 	}
-
-	// TODO: Finish implementing
-	log.Warn().Msg("Command not fully implemented")
 
 	return nil
 }
